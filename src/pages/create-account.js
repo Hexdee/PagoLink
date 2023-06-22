@@ -15,7 +15,9 @@ return (
             {/* <Link className="font-poppins text-normal" to={GENERATE_PAYMENT}>Generate payment</Link> */}
             <div className="flex bg-white justify-center border w-[80vw] lg:w-[30vw] rounded-lg border-lightBlue h-fit py-4 px-8 mx-auto drop-shadow-auth border border-lightBlue">
             <div className="w-full">
-                    <img src="/logo.svg" className="mx-auto" alt="logo" width={100} />
+                <Link to={HOME_URL}>
+                    <img src="/logo.svg" className="mx-auto cursor-pointer" alt="logo" width={100} />
+                </Link>
                 <h1 className="text-[25px] font-bold text-grey text-center">Create account</h1>
 
                 <div className="flex">

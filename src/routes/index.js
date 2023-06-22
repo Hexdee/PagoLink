@@ -5,14 +5,15 @@ import { LoginPage } from "../pages";
 import PageLoader from "../components/pageLoader";
 import { GetPaymentLink } from "../pages/payment-link";
 import { CreateAccountPage } from "../pages/create-account";
+import Private from "./PrivateRoute";
 
 const WebRoute = () => {
     return (
         <Suspense fallback={<PageLoader />}>
             <Routes>
                 <Route index path={HOME_URL} element={<LoginPage />} />
-                <Route path={GENERATE_PAYMENT} element={<GetPaymentLink />} />
                 <Route path={CREATE_ACCOUNT} element={<CreateAccountPage />} />
+                <Route path={GENERATE_PAYMENT} element={<Private><GetPaymentLink /></Private>} />
             </Routes>   
         </Suspense>
     )
