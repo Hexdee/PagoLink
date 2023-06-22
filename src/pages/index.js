@@ -2,14 +2,16 @@ import { Button } from "evergreen-ui";
 import { PasswordInput } from "../components/inputs/passwordInput";
 import { useState } from "react";
 import { TextInputs } from "../components/inputs/TextInputs";
+import { Link } from "react-router-dom";
+import { CREATE_ACCOUNT } from "../routes/paths";
 
 export const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 return (
-        <div className="bg-primary h-screen flex items-center">
+        <div className="bg-primary h-screen flex items-center drop-shadow-auth border border-lightBlue">
             {/* <Link className="font-poppins text-normal" to={GENERATE_PAYMENT}>Generate payment</Link> */}
-            <div className="flex bg-white justify-center border w-[80vw] lg:w-[35vw] rounded-lg border-lightBlue h-fit p-4 mx-auto">
+            <div className="flex bg-white justify-center border w-[80vw] lg:w-[30vw] rounded-lg border-lightBlue h-fit py-4 px-8 mx-auto drop-shadow-auth border border-lightBlue">
             <div className="w-full">
                     <img src="/logo.svg" className="mx-auto" alt="logo" width={100} />
                 <h1 className="text-[30px] font-bold text-grey text-center">Login</h1>
@@ -24,7 +26,7 @@ return (
                     <Button className="w-full" size="large" marginRight={16} appearance="primary" width={"100%"} disabled={!email || !password}>
             Log in
         </Button>
-        <p className="text-sm cursor-pointer my-3 text-center">Don't have an account ? <span className="text-primary">Create one</span></p>
+        <p className="text-sm cursor-pointer mt-3 text-center">Don't have an account ? <span className="text-primary"><Link to={CREATE_ACCOUNT}>Create one</Link></span></p>
                 </div>
             </div>
         </div>
