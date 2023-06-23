@@ -7,9 +7,9 @@ export const GetPaymentLink = () => {
     const [desc, setDesc] = useState('');
 return (
     <DashboardLayout>
-        <div className="w-full py-24">
-            <div className="flex justify-center border w-[35vw] rounded-lg border-lightBlue h-fit p-4 mx-auto">
-                <div className="w-full">
+        <div className="w-full py-5 pl-4">
+            <div className="flex justify-center border w-full rounded-lg border-lightBlue h-[95vh] p-4 mx-auto">
+                <div className="w-[35vw]">
                     <img src="/logo.svg" className="mx-auto" alt="logo" width={100} />
                     <p className="text-center font-poppins">Pago Pay</p>
 

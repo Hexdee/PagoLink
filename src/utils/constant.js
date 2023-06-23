@@ -1,5 +1,5 @@
 import { GridViewIcon, HorizontalBarChartAscIcon, SendToIcon } from "evergreen-ui";
-import { GENERATE_PAYMENT } from "../routes/paths";
+import { GENERATE_PAYMENT, HISTORY_URL } from "../routes/paths";
 
 export const sideBar = [
     {
@@ -14,7 +14,54 @@ export const sideBar = [
     },
     {
         title: 'History',
-        href: '',
+        href: HISTORY_URL,
         icon: (<HorizontalBarChartAscIcon />)
+    },
+];
+
+export const TableColumn = ['Trx', 'Description', 'Amount', 'Date & Time', 'Status'];
+
+export const Tablecontent = [
+    {
+        trx: '104232302',
+        description: 'Purchase of sonar',
+        amount: '10 USD',
+        date: '01/04/2023, 10:04pm',
+        status: 'Success'
+    },
+    {
+        trx: '104232302',
+        description: 'Purchase of sonar',
+        amount: '10 USD',
+        date: '01/04/2023, 10:04pm',
+        status: 'Success'
+    },
+    {
+        trx: '104232302',
+        description: 'Purchase of sonar',
+        amount: '10 USD',
+        date: '01/04/2023, 10:04pm',
+        status: 'Success'
+    },
+    {
+        trx: '104232302',
+        description: 'Purchase of sonar',
+        amount: '10 USD',
+        date: '01/04/2023, 10:04pm',
+        status: 'Success'
+    },
+    {
+        trx: '104232302',
+        description: 'Purchase of sonar',
+        amount: '10 USD',
+        date: '01/04/2023, 10:04pm',
+        status: 'Success'
+    },
+    {
+        trx: '104232302',
+        description: 'Purchase of sonar',
+        amount: '10 USD',
+        date: '01/04/2023, 10:04pm',
+        status: 'Success'
     },
 ];
