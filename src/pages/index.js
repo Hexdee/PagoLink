@@ -1,4 +1,4 @@
-import { Button } from "evergreen-ui";
+import { Button, toaster } from "evergreen-ui";
 import { PasswordInput } from "../components/inputs/passwordInput";
 import { useState } from "react";
 import { TextInputs } from "../components/inputs/TextInputs";
@@ -12,6 +12,7 @@ export const LoginPage = () => {
 
     const handleSubmit = () => {
         localStorage.setItem('user', email);
+        toaster.success('Authenticated successfully')
         navigate(GENERATE_PAYMENT)
     }
 return (
