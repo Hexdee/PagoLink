@@ -1,10 +1,10 @@
 import { GridViewIcon, HorizontalBarChartAscIcon, SendToIcon } from "evergreen-ui";
-import { GENERATE_PAYMENT, HISTORY_URL } from "../routes/paths";
+import { DASHBOARD_HOME_URL, GENERATE_PAYMENT, HISTORY_URL } from "../routes/paths";
 
 export const sideBar = [
     {
         title: 'Profile',
-        href: '',
+        href: DASHBOARD_HOME_URL,
         icon: (<GridViewIcon />)
     },
     {
@@ -65,3 +65,31 @@ export const Tablecontent = [
         status: 'Success'
     },
 ];
+
+export const UserProfile = [
+    {
+        title: 'First Name',
+        res: 'Temitope',
+        id: 0,
+    },
+    {
+        title: 'Last name',
+        res: 'Aroyewon',
+        id: 2,
+    },
+    {
+        title: 'Email',
+        res: 'aroyewontemi@gmail.com',
+        id: 3,
+    },
+    {
+        title: 'User name',
+        res: '@temi',
+        id: 4
+    },
+    {
+        title: 'Contact Info',
+        res: '-',
+        id: 5
+    }
+]

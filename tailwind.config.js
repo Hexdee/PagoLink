@@ -55,7 +55,7 @@ module.exports = {
       medium: 'rgba(0, 0, 0, 0.08) 0px 4px 12px',
       extra: 'rgba(0, 0, 0, 0.1) 0px 10px 50px',
       tiny: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px',
-      card: 'rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px',
+      card: 'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;',
       dropdown:
         '0px 12px 16px -4px rgba(16, 24, 40, 0.1), 0px 4px 6px -2px rgba(16, 24, 40, 0.05)',
     },
