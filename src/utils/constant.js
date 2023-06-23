@@ -1,4 +1,4 @@
-import { GridViewIcon, SendToIcon } from "evergreen-ui";
+import { GridViewIcon, HorizontalBarChartAscIcon, SendToIcon } from "evergreen-ui";
 import { GENERATE_PAYMENT } from "../routes/paths";
 
 export const sideBar = [
@@ -8,8 +8,13 @@ export const sideBar = [
         icon: (<GridViewIcon />)
     },
     {
-        title: 'Generate Payment',
+        title: 'Generate Link',
         href: GENERATE_PAYMENT,
         icon: (<SendToIcon />)
+    },
+    {
+        title: 'History',
+        href: '',
+        icon: (<HorizontalBarChartAscIcon />)
     },
 ];

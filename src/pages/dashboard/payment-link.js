@@ -1,12 +1,12 @@
 import { Button, TextInput, Textarea } from "evergreen-ui";
 import { useState } from "react";
-import { AuthLayout } from "../templates/authLayout";
+import { DashboardLayout } from "../../templates/dashboardLayout";
 
 export const GetPaymentLink = () => {
     const [amount, setAmount] = useState('');
     const [desc, setDesc] = useState('');
 return (
-    <AuthLayout>
+    <DashboardLayout>
         <div className="w-full py-24">
             <div className="flex justify-center border w-[35vw] rounded-lg border-lightBlue h-fit p-4 mx-auto">
                 <div className="w-full">
@@ -30,7 +30,6 @@ return (
                 </div>
             </div>
         </div>
-    </AuthLayout>
+    </DashboardLayout>
 );
 };
-// LinkIcon
