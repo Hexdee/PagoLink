@@ -1,4 +1,4 @@
-import { Table, TickCircleIcon } from "evergreen-ui";
+import { BanCircleIcon, Table, TickCircleIcon, WarningSignIcon } from "evergreen-ui";
 import { TableColumn, Tablecontent } from "../../utils/constant";
 
 export const TableFormat = () => (
@@ -17,7 +17,8 @@ export const TableFormat = () => (
         <Table.TextCell>{content.date}</Table.TextCell>
         <Table.TextCell>
             <div className="flex">
-                <TickCircleIcon color="success" marginRight={16} />
+                {content.status === 'Success' ? (<TickCircleIcon color="success" marginRight={16} />) : content.status === 'Pending' ? (<WarningSignIcon color="warning" marginRight={16} />) : ( <BanCircleIcon color="danger" marginRight={16} />)}
+            
                 {content.status}
             </div>
             </Table.TextCell>

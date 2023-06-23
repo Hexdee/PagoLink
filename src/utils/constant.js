@@ -34,28 +34,28 @@ export const Tablecontent = [
         description: 'Purchase of sonar',
         amount: '10 USD',
         date: '01/04/2023, 10:04pm',
-        status: 'Success'
+        status: 'Fail'
     },
     {
         trx: '104232302',
         description: 'Purchase of sonar',
         amount: '10 USD',
         date: '01/04/2023, 10:04pm',
-        status: 'Success'
+        status: 'Pending'
     },
     {
         trx: '104232302',
         description: 'Purchase of sonar',
         amount: '10 USD',
         date: '01/04/2023, 10:04pm',
-        status: 'Success'
+        status: 'Pending'
     },
     {
         trx: '104232302',
         description: 'Purchase of sonar',
         amount: '10 USD',
         date: '01/04/2023, 10:04pm',
-        status: 'Success'
+        status: 'Fail'
     },
     {
         trx: '104232302',
