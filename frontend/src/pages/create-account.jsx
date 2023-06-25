@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TextInputs } from "../components/inputs/TextInputs";
 import { Link, useNavigate } from "react-router-dom";
 import { HOME_URL, DASHBOARD_HOME_URL } from "../routes/paths";
+import {BACKENDURL} from "../utils/constant";
 
 export const CreateAccountPage = () => {
     const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ export const CreateAccountPage = () => {
         };
         console.log({ data })
 
-        const response = await fetch("http://localhost:4000/register", {
+        const response = await fetch(`${BACKENDURL}/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
