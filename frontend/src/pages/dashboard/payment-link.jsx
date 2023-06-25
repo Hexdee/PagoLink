@@ -1,6 +1,7 @@
 import { Button, TextInput, Textarea } from "evergreen-ui";
 import { useState } from "react";
 import { DashboardLayout } from "../../templates/dashboardLayout";
+import { BACKENDURL } from "../../utils/constant";i
 
 export const GetPaymentLink = () => {
     const [amount, setAmount] = useState('');
@@ -15,7 +16,7 @@ export const GetPaymentLink = () => {
             };
             const token = localStorage.getItem("user");
 
-            const response = await fetch("http://localhost:4000/create-payment", {
+            const response = await fetch(`${BACKENDURL}/create-payment`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
