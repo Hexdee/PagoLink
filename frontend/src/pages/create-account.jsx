@@ -4,7 +4,7 @@ import { useState } from "react";
 import { TextInputs } from "../components/inputs/TextInputs";
 import { Link, useNavigate } from "react-router-dom";
 import { HOME_URL, DASHBOARD_HOME_URL } from "../routes/paths";
-import {BACKENDURL} from "../utils/constant";
+import { BACKENDURL } from "../utils/constant";
 
 export const CreateAccountPage = () => {
     const [email, setEmail] = useState('');

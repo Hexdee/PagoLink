@@ -64,8 +64,7 @@
             opacity: 90%;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.1/dist/umd/index.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 </head>
 
 <body>
@@ -83,8 +82,8 @@
 
         <label for="paymentToken">Payment Token:</label>
         <select id="paymentToken">
-            <option value="HBAR">HBAR</option>
-            <option value="USDC">USDC</option>
+            <option value="0x0000000000000000000000000000000000000000">HBAR</option>
+            <option value="0x000000000000000000000000000000000033ced6">USDC</option>
         </select>
 
         <button id="connectWalletButton">Connect Wallet</button>
@@ -92,8 +91,8 @@
     </div>
 
     <script>
-        var reniAddress = "0xEeb835cC060b861ec2D9534E7Fdb4dE8A50ff52b";
-        var reniAbi = [
+        var pagoLinkAdress = "0xEeb835cC060b861ec2D9534E7Fdb4dE8A50ff52b";
+        var pagoLinkAbi = [
             {
                 "inputs": [
                     {
@@ -429,10 +428,11 @@
 
         const connect = async () => {
             if (window.ethereum) {
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const provider = new ethers.providers.Web3Provider(window.ethereum)
+                const accounts = await provider.send("eth_requestAccounts", []);
+
                 account = accounts[0];
-                web3 = new Web3(window.ethereum);
-                window.w3 = web3;
+                window.provider = provider;
                 try {
                     // check if the chain to connect to is installed
                     await window.ethereum.request({
@@ -476,14 +476,14 @@
             }
         }
         const requiredTokenAmount = async (token, amountInUSD) => {
-            const reni = await contract(reniAbi, reniAddress);
-            const amount = await reni.methods.requiredTokenAmount(web3.utils.toWei(amountInUSD), token).call();
+            const pagoLink = await contract(pagoLinkAbi, pagoLinkAdress);
+            const amount = await pagoLink.requiredTokenAmount(amountInUSD * 1e8, token);
             return amount;
         }
 
         const contract = async (abi, address) => {
-            if (w3) {
-                return new w3.eth.Contract(abi, address)
+            if (window.provider) {
+                return new ethers.Contract(address, abi, await window.provider.getSigner())
             }
         }
 
@@ -492,20 +492,25 @@
             const amount = document.getElementById("amount").value;
             const merchant = document.getElementById("recipient").value;
             const paymentId = "<%= paymentId %>"
+            const signer = await window.provider.getSigner();
             // const payBtn = document.getElementById("pay");
 
-            console.log({ token, amount, merchant, paymentId })
+            // console.log({ token, amount, merchant, paymentId })
             if (token && amount && merchant && paymentId) {
                 try {
                     // payBtn.innerText = "Loading..."
-                    const pagoLink = await contract(reniAbi, reniAddress);
+                    const pagoLink = await contract(pagoLinkAbi, pagoLinkAdress);
+                    console.log({ pagoLink: await pagoLink.owner() })
                     if (token != address0) {
-                        const tx = await pagoLink.methods.makePayment(token, web3.utils.toWei(amount), merchant, paymentId).send({ from: account });
+                        const tx = await pagoLink.makePayment(token, ethers.utils.parseEther(amount), merchant, paymentId);
                         await tx.wait();
                     } else {
+                        console.log("address0")
                         const requireAmount = await requiredTokenAmount(whbar, amount);
-                        console.log({ requireAmount });
-                        const tx = await pagoLink.methods.makePayment(token, web3.utils.toWei(amount), name, desc, merchant).send({ from: account, value: requireAmount });
+                        // const tx = await signer.sendTransaction({ to: pagoLinkAdress, value: requireAmount });
+                        // console.log({ requireAmount, account });
+                        const tx = await pagoLink.makePayment(token, ethers.utils.parseEther(amount), merchant, paymentId, { value: requireAmount });
+                        console.log({ tx });
                     }
                     // alert("Payment successful");
                     // payBtn.innerText = "Payment successful";

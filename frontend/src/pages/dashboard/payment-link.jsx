@@ -1,7 +1,7 @@
 import { Button, TextInput, Textarea } from "evergreen-ui";
 import { useState } from "react";
 import { DashboardLayout } from "../../templates/dashboardLayout";
-import { BACKENDURL } from "../../utils/constant";i
+import { BACKENDURL } from "../../utils/constant";
 
 export const GetPaymentLink = () => {
     const [amount, setAmount] = useState('');
@@ -63,7 +63,7 @@ export const GetPaymentLink = () => {
                         <Button onClick={createPaymentLink} className="w-full" size="large" marginRight={16} appearance="primary" width={"100%"} disabled={!amount || !description}>
                             Generate payment link
                         </Button>
-                        {paymentId && <p>Payment link: <a target="_blank" href={`https://localhost:4000/pay/${paymentId}`}>{`https://localhost:4000/pay/${paymentId}`}</a></p>}
+                        {paymentId && <p>Payment link: <a target="_blank" href={`${BACKENDURL}/pay/${paymentId}`}>{`${BACKENDURL}/pay/${paymentId}`}</a></p>}
                     </div>
                 </div>
             </div>
