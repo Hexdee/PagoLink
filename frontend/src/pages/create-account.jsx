@@ -66,10 +66,10 @@ export const CreateAccountPage = () => {
                         />
                     </div>
                     <TextInputs
-                        keyDown errorMsg="" name="username" placeholder="Enter username" type="text" onChange={({ target }) => setUsername(target.value)} value={username} defaultValue="" my="-my-1" label="Username"
+                        keyDown errorMsg="" name="username" placeholder="Enter username" type="text" onChange={({ target }) => setUsername(target.value)} value={username} defaultValue="" my="my-1" label="Username"
                     />
                     <TextInputs
-                        keyDown errorMsg="" name="email" placeholder="example@email.com" type="email" onChange={({ target }) => setEmail(target.value)} value={email} defaultValue="" my="-my-1"
+                        keyDown errorMsg="" name="email" placeholder="example@email.com" type="email" onChange={({ target }) => setEmail(target.value)} value={email} defaultValue="" my="my-3"
                     />
 
                     <PasswordInput errorMsg="" defaultValue="" onChange={({ target }) => setPassword(target.value)} value={password} name="password" />
