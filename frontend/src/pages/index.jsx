@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TextInputs } from "../components/inputs/TextInputs";
 import { Link, useNavigate } from "react-router-dom";
 import { CREATE_ACCOUNT, DASHBOARD_HOME_URL } from "../routes/paths";
+import {BACKENDURL} from "../utils/constant";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export const LoginPage = () => {
 
         const data = { email, password };
 
-        const response = await fetch("http://localhost:4000/login", {
+        const response = await fetch(`${BACKENDURL}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

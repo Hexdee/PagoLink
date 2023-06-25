@@ -1,6 +1,7 @@
 import { GridViewIcon, HorizontalBarChartAscIcon, SendToIcon } from "evergreen-ui";
 import { DASHBOARD_HOME_URL, GENERATE_PAYMENT, HISTORY_URL } from "../routes/paths";
 
+export const BACKENDURL = "https://pagolink.cyclic.app";
 export const sideBar = [
     {
         title: 'Profile',

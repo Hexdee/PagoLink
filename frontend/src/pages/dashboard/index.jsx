@@ -1,12 +1,13 @@
 import { Button, EditIcon, toaster } from "evergreen-ui";
 import { DashboardLayout } from "../../templates/dashboardLayout";
 import { useEffect, useState } from "react";
+import { BACKENDURL } from "../../utils/constant";
 
 export const DashboardHome = () => {
     const [user, setUser] = useState();
     const getUserProfile = async (token) => {
         try {
-            const response = await fetch(`http://localhost:4000/profile?token=${token}`);
+            const response = await fetch(`${BACKENDURL}/profile?token=${token}`);
             const userProfile = await response.json();
             setUser(userProfile);
         } catch (error) {
