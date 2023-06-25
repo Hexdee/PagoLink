@@ -3,9 +3,9 @@ import { Navigate, Outlet } from "react-router-dom";
 import { HOME_URL } from "./paths";
 
 const Private = ({ children }) => {
-  const userEmail = localStorage.getItem('user');
+  const token = localStorage.getItem('user');
 
-  if (!userEmail) {
+  if (!token) {
     return <Navigate to={HOME_URL} replace />;
   }
   return children || <Outlet />;
