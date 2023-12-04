@@ -493,7 +493,7 @@
             const merchant = document.getElementById("recipient").value;
             const paymentId = "<%= paymentId %>"
             const signer = await window.provider.getSigner();
-            const payBtn = document.getElementById("pay");
+            const payBtn = document.getElementById('makePaymentButton');
 
             console.log({ token, amount, merchant, paymentId })
             if (token && amount && merchant && paymentId) {
