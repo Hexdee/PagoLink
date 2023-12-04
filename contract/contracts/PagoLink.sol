@@ -55,7 +55,7 @@ contract PagoLink is Ownable {
         uint256 _tokenAmount;
 
         require(_amount > 0, "Invalid payment amount");
-        require(bytes(_paymentId).length == 34, "Invalid payment id");
+        // require(bytes(_paymentId).length == 34, "Invalid payment id");
 
         if (_tokenAddress != stableCoinAddress && _tokenAddress != address(0)) {
             // Get the amount of token to swap
