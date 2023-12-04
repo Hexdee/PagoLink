@@ -493,33 +493,31 @@
             const merchant = document.getElementById("recipient").value;
             const paymentId = "<%= paymentId %>"
             const signer = await window.provider.getSigner();
-            // const payBtn = document.getElementById("pay");
+            const payBtn = document.getElementById("pay");
 
-            // console.log({ token, amount, merchant, paymentId })
+            console.log({ token, amount, merchant, paymentId })
             if (token && amount && merchant && paymentId) {
                 try {
-                    // payBtn.innerText = "Loading..."
+                    payBtn.innerText = "Loading..."
                     const pagoLink = await contract(pagoLinkAbi, pagoLinkAdress);
-                    console.log({ pagoLink: await pagoLink.owner() })
                     if (token != address0) {
                         const tx = await pagoLink.makePayment(token, ethers.utils.parseEther(amount), merchant, paymentId);
                         await tx.wait();
                     } else {
                         console.log("address0")
                         const requireAmount = await requiredTokenAmount(weth, amount);
-                        // const tx = await signer.sendTransaction({ to: pagoLinkAdress, value: requireAmount });
-                        // console.log({ requireAmount, account });
+                        console.log({ requireAmount, account });
                         const tx = await pagoLink.makePayment(token, ethers.utils.parseEther(amount), merchant, paymentId, { value: requireAmount });
                         console.log({ tx });
                     }
-                    // alert("Payment successful");
-                    // payBtn.innerText = "Payment successful";
-                    // payBtn.onclick = "";
-                    // payBtn.style.backgroundColor = "green";
+                    alert("Payment successful");
+                    payBtn.innerText = "Payment successful";
+                    payBtn.onclick = "";
+                    payBtn.style.backgroundColor = "green";
                 } catch (err) {
                     console.log(err);
                     alert("An error occured");
-                    // payBtn.innerText = "Pay with Reni";
+                    payBtn.innerText = "Pay with PagoLink";
                 }
             }
             else {
