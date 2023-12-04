@@ -5,8 +5,8 @@ require("dotenv").config();
 module.exports = {
   solidity: "0.8.18",
   networks: {
-    testnet: {
-      url: "https://testnet.hashio.io/api",
+    goerli: {
+      url: "https://eth-goerli.public.blastapi.io",
       accounts: [process.env.PRIVATE_KEY]
     }
   }

@@ -144,8 +144,8 @@ app.get("/pay/:paymentId", async (req, res) => {
 });
 
 // Listen to smart contract for payment and update user balance
-const pagoLinkAddress = "0xEeb835cC060b861ec2D9534E7Fdb4dE8A50ff52b";
-const provider = new ethers.providers.JsonRpcProvider("https://testnet.hashio.io/api");//, { chainId: 296, name: "Hedera Testnet" });
+const pagoLinkAddress = "0xC1c6AE536BEea0F3BF6Faf9F2F19f0f46648CD09";
+const provider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/82bfbec03fc04f7f96bbdad275ad0185");//, { chainId: 296, name: "Hedera Testnet" });
 
 const contract = new ethers.Contract(pagoLinkAddress, pagoLinkAbi, provider);
 contract.on("PaymentSuccessful", async (paymentId, payer, merchant, amount, token) => {

@@ -82,8 +82,8 @@
 
         <label for="paymentToken">Payment Token:</label>
         <select id="paymentToken">
-            <option value="0x0000000000000000000000000000000000000000">HBAR</option>
-            <option value="0x000000000000000000000000000000000033ced6">USDC</option>
+            <option value="0x0000000000000000000000000000000000000000">ETHER</option>
+            <option value="0x81238081bfe3483Ab93224CF259FaefFfccd1d68">USDC</option>
         </select>
 
         <button id="connectWalletButton">Connect Wallet</button>
@@ -91,7 +91,7 @@
     </div>
 
     <script>
-        var pagoLinkAdress = "0xEeb835cC060b861ec2D9534E7Fdb4dE8A50ff52b";
+        var pagoLinkAdress = "0xC1c6AE536BEea0F3BF6Faf9F2F19f0f46648CD09";
         var pagoLinkAbi = [
             {
                 "inputs": [
@@ -393,7 +393,7 @@
         ]
         var erc20Abi = [{ "constant": false, "inputs": [{ "name": "_spender", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "approve", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "balance", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }, { "name": "_spender", "type": "address" }], "name": "allowance", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }];
         var address0 = "0x0000000000000000000000000000000000000000";
-        var whbar = "0x0000000000000000000000000000000000338930";
+        var weth = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6 ";
         let account = "";
         // Wait for the DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', () => {
@@ -437,7 +437,7 @@
                     // check if the chain to connect to is installed
                     await window.ethereum.request({
                         method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: '0x128' }], // chainId must be in hexadecimal numbers
+                        params: [{ chainId: '0x5' }], // chainId must be in hexadecimal numbers
                     });
                 } catch (error) {
                     // This error code indicates that the chain has not been added to MetaMask
@@ -448,11 +448,11 @@
                                 method: 'wallet_addEthereumChain',
                                 params: [
                                     {
-                                        chainId: "0x128",
-                                        chainName: "Hedera Testnet",
-                                        nativeCurrency: { name: "Hedera Token", symbol: "HBAR", decimals: 18 },
-                                        rpcUrls: ["https://testnet.hashio.io/api"],
-                                        blockExplorerUrls: ["https://hashscan.io/testnet/dashboard"],
+                                        chainId: "0x5",
+                                        chainName: "Goerli Testnet",
+                                        nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+                                        rpcUrls: ["https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
+                                        blockExplorerUrls: ["https://goerli.etherscan.io"],
                                         iconUrls: ["future"],
                                     }
                                 ],
@@ -464,7 +464,7 @@
                         }
                     } else {
                         console.log(error);
-                        window.alert('failed to switch network to polygon testnet')
+                        window.alert('failed to switch network to goerli testnet')
                         return;
                     }
                     window.ethereum.on('accountsChanged', function (accounts) {
@@ -506,7 +506,7 @@
                         await tx.wait();
                     } else {
                         console.log("address0")
-                        const requireAmount = await requiredTokenAmount(whbar, amount);
+                        const requireAmount = await requiredTokenAmount(weth, amount);
                         // const tx = await signer.sendTransaction({ to: pagoLinkAdress, value: requireAmount });
                         // console.log({ requireAmount, account });
                         const tx = await pagoLink.makePayment(token, ethers.utils.parseEther(amount), merchant, paymentId, { value: requireAmount });
