@@ -133,6 +133,7 @@ app.post('/create-payment', auth, async (req, res) => {
 app.get("/pay/:paymentId", async (req, res) => {
     const { paymentId } = req.params;
     const payment = await Payment.findOne({ _id: paymentId });
+    console.log({paymentId})
     if (payment) {
         res.status(200);
         const { amount, merchant, description } = payment;
@@ -144,7 +145,7 @@ app.get("/pay/:paymentId", async (req, res) => {
 });
 
 // Listen to smart contract for payment and update user balance
-const pagoLinkAddress = "0x58330165597Db323f3a6De7F5b2F67868a6C8c74";
+const pagoLinkAddress = "0x00dA9fb29E2D89Fc6e0B358B9332c11e05982B44";
 const provider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/82bfbec03fc04f7f96bbdad275ad0185");//, { chainId: 296, name: "Hedera Testnet" });
 
 const contract = new ethers.Contract(pagoLinkAddress, pagoLinkAbi, provider);
@@ -159,6 +160,8 @@ contract.on("PaymentSuccessful", async (paymentId, payer, merchant, amount, toke
         const payments = user.payments;
         payments.unshift(payment);
         await User.updateOne({ username: merchant }, { balance, transactions: payments });
+        console.log("Payment successful");
+        console.log({user: await User.findOne({ username: merchant })});
     } catch (err) {
         console.log(err)
     }

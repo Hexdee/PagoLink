@@ -1,8 +1,8 @@
 const hre = require("hardhat");
 
 async function main() {
-  const stableCoinAddress = "0x000000000000000000000000000000000033ced6";
-  const swapRouterAddress = "0x000000000000000000000000000000000033cecb";
+  const stableCoinAddress = "0x81238081bfe3483Ab93224CF259FaefFfccd1d68";
+  const swapRouterAddress = "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506";
   const slippage = 5;
 
   const pagoLink = await hre.ethers.deployContract("PagoLink", [stableCoinAddress, swapRouterAddress, slippage]);

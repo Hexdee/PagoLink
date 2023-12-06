@@ -91,7 +91,7 @@
     </div>
 
     <script>
-        var pagoLinkAdress = "0x58330165597Db323f3a6De7F5b2F67868a6C8c74";
+        var pagoLinkAdress = "0x00dA9fb29E2D89Fc6e0B358B9332c11e05982B44";
         var pagoLinkAbi = [
             {
                 "inputs": [
@@ -395,6 +395,7 @@
         var address0 = "0x0000000000000000000000000000000000000000";
         var weth = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6";
         let account = "";
+        const stableCoinDecimals = 1e18;
         // Wait for the DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', () => {
             const connectWalletButton = document.getElementById('connectWalletButton');
@@ -413,12 +414,11 @@
 
             // Function to handle payment submission
             const makePayment = async () => {
-                await payNow();
-
-                // Code to initiate the payment process
-                // You can use web3.js or Hedera SDK to interact with the smart contract and initiate the payment transaction
-
-                console.log('Payment Token:', paymentToken);
+                if (makePaymentButton.innerText == "Approve Token") {
+                    await approveToken();
+                } else {
+                    await payNow();
+                }
             };
 
             // Add event listeners
@@ -470,13 +470,20 @@
                     window.ethereum.on('accountsChanged', function (accounts) {
                         account = accounts[0];
                     });
+                } finally {
+                    checkApproveStatus();
                 }
             } else {
                 window.alert("Metamask not detected!");
             }
         }
+
         const requiredTokenAmount = async (token, amountInUSD) => {
             const pagoLink = await contract(pagoLinkAbi, pagoLinkAdress);
+            console.log({token})
+            if(token == "0x81238081bfe3483Ab93224CF259FaefFfccd1d68") {
+                return amountInUSD;
+            }
             const amount = await pagoLink.requiredTokenAmount(amountInUSD * 1e8, token);
             return amount;
         }
@@ -484,6 +491,65 @@
         const contract = async (abi, address) => {
             if (window.provider) {
                 return new ethers.Contract(address, abi, await window.provider.getSigner())
+            }
+        }
+
+        document.getElementById("paymentToken").addEventListener("change", async (e) => {
+            const tokenAddress = e.target.value;
+            if(account) {
+                checkApproveStatus();
+            }
+        })
+
+        const checkApproveStatus = async () => {
+            const tokenAddress = document.getElementById("paymentToken").value;
+            const payBtn = document.getElementById("makePaymentButton");
+            if(!account) {
+                return;
+            }
+            try {
+                payBtn.disabled = true;
+                const amount = document.getElementById("amount").value;
+                const tokenContract = await contract(erc20Abi, tokenAddress);
+                let allowance = 0;
+                let requiredTokenValue = 1;
+
+                if (tokenAddress != "0x0000000000000000000000000000000000000000") {
+                    requireTokenValue = (await requiredTokenAmount(tokenAddress, amount)) * stableCoinDecimals;
+                    allowance = await getAllowance(tokenAddress);
+                }
+                console.log({ allowance, requiredTokenValue });
+                if (allowance < requiredTokenValue && tokenAddress != "0x0000000000000000000000000000000000000000") {
+                    payBtn.innerText = "Approve Token";
+                } else {
+                    payBtn.innerText = "Make Payment";
+                }
+                payBtn.disabled = false;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        const getAllowance = async (tokenAddress) => {
+            const tokenContract = await contract(erc20Abi, tokenAddress);
+            const allowance = Number(await tokenContract.allowance(account, pagoLinkAdress));
+            return allowance;
+        }
+
+        const approveToken = async () => {
+            const token = document.getElementById("paymentToken").value;
+            const payBtn = document.getElementById('makePaymentButton');
+            try {
+                payBtn.innerText = "Approving...";
+                const tokenContract = await contract(erc20Abi, token);
+                const tx = await tokenContract.approve(pagoLinkAdress, "0xffffffffffffffffffffffffffffffff");
+                await tx.wait();
+                payBtn.innerText = "Make Payment";
+            }
+            catch (err) {
+                console.log(err);
+                alert("An error occured");
+                payBtn.innerText = "Approve";
             }
         }
 
@@ -517,7 +583,7 @@
                 } catch (err) {
                     console.log(err);
                     alert("An error occured");
-                    payBtn.innerText = "Pay with PagoLink";
+                    payBtn.innerText = "Make Payment";
                 }
             }
             else {
