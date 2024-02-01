@@ -106,7 +106,6 @@ app.get("/profile", auth, async (req, res) => {
     try {
         const { email } = req.merchant;
         const merchant = await Merchant.findOne({ email });
-        console.log({merchant})
         const { firstName, lastName, username, balance, payments } = merchant;
         res.status(200);
         res.send({ firstName, lastName, email, username, email, balance, payments });
@@ -167,13 +166,15 @@ contract.on("PaymentSuccessful", async (paymentId, payer, merchant, amount, toke
         const payment = await Payment.findById(paymentId);
         payment.paid = true;
         payment.datePaid = Date.now();
+        await Payment.updateOne({_id: paymentId}, payment);
         let payments = user.payments;
         payments = payments.map((p) => {
-            if (payment._id == p._id) {
+            if (payment._id.equals(p._id)) {
                 return payment;
             }
             return p;
         })
+        console.log({payments})
         await Merchant.updateOne({ username: merchant }, { balance, payments });
         // console.log("Payment successful");
     } catch (err) {
