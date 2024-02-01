@@ -13,7 +13,7 @@ require("./config/database").connect();
 
 
 
-// importing user context
+// importing merchant context
 const Merchant = require("./model/merchant");
 const Payment = require("./model/payment");
 
@@ -66,7 +66,7 @@ app.post('/register', async (req, res) => {
         // return new user
         res.status(201).json({ firstName, lastName, balance: 0, email, username, token });
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 });
 
@@ -98,7 +98,7 @@ app.post("/login", async (req, res) => {
             res.status(400).send("Invalid Credentials");
         }
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 });
 
@@ -106,6 +106,7 @@ app.get("/profile", auth, async (req, res) => {
     try {
         const { email } = req.merchant;
         const merchant = await Merchant.findOne({ email });
+        console.log({merchant})
         const { firstName, lastName, username, balance, payments } = merchant;
         res.status(200);
         res.send({ firstName, lastName, email, username, email, balance, payments });
@@ -124,8 +125,14 @@ app.post('/create-payment', auth, async (req, res) => {
         amount,
         description,
         merchant: merchant.username,
-        paid: false
+        paid: false,
+        dateCreated: Date.now(),
+        datePaid: null,
     });
+
+    const payments = merchant.payments;
+    payments.unshift(payment);
+    await Merchant.updateOne({ email }, { payments });
 
     res.status(200).json(payment._id);
 });
@@ -133,7 +140,7 @@ app.post('/create-payment', auth, async (req, res) => {
 app.get("/pay/:paymentId", async (req, res) => {
     const { paymentId } = req.params;
     const payment = await Payment.findOne({ _id: paymentId });
-    console.log({paymentId})
+    // console.log({paymentId})
     if (payment) {
         res.status(200);
         const { amount, merchant, description } = payment;
@@ -145,25 +152,26 @@ app.get("/pay/:paymentId", async (req, res) => {
 });
 
 // Listen to smart contract for payment and update user balance
-const pagoLinkAddress = "0x00dA9fb29E2D89Fc6e0B358B9332c11e05982B44";
+const pagoLinkAddress = "0xAa0ee916fF5586A1fdcc02108bE2d8C55a2cDFd3";
 const provider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/82bfbec03fc04f7f96bbdad275ad0185");//, { chainId: 296, name: "Hedera Testnet" });
 
 const contract = new ethers.Contract(pagoLinkAddress, pagoLinkAbi, provider);
 contract.on("PaymentSuccessful", async (paymentId, payer, merchant, amount, token) => {
     try {
         const value = ethers.utils.formatEther(amount);
+        // console.log({paymentId, payer, merchant, amount, token});
 
-        const user = await User.findOne({ username: merchant });
+        const user = await Merchant.findOne({ username: merchant });
         let balance = user.balance || 0;
         balance = Number(balance) + Number(value);
         const payment = await Payment.findById(paymentId);
+        payment.paid = true;
+        payment.datePaid = Date.now();
         const payments = user.payments;
-        payments.unshift(payment);
-        await User.updateOne({ username: merchant }, { balance, transactions: payments });
-        console.log("Payment successful");
-        console.log({user: await User.findOne({ username: merchant })});
+        await Merchant.updateOne({ username: merchant }, { balance, payments });
+        // console.log("Payment successful");
     } catch (err) {
-        console.log(err)
+        console.error(err)
     }
 });
 

@@ -9,10 +9,13 @@ export const DashboardHome = () => {
         try {
             const response = await fetch(`${BACKENDURL}/profile?token=${token}`);
             const userProfile = await response.json();
-            setUser(userProfile);
+            console.log({userProfile});
+            setUser({"First Name": userProfile.firstName, "Last Name": userProfile.lastName, "Email": userProfile.email, "Username": userProfile.username, "Balance": `$${userProfile.balance}`});
         } catch (error) {
             console.error({ error });
             toaster.danger("Error getting user profile")
+            localStorage.removeItem('user');
+            location.reload();
         }
     };
     useEffect(() => {

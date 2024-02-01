@@ -91,7 +91,7 @@
     </div>
 
     <script>
-        var pagoLinkAdress = "0x00dA9fb29E2D89Fc6e0B358B9332c11e05982B44";
+        var pagoLinkAdress = "0xAa0ee916fF5586A1fdcc02108bE2d8C55a2cDFd3";
         var pagoLinkAbi = [
             {
                 "inputs": [
@@ -566,6 +566,7 @@
                 try {
                     payBtn.innerText = "Loading..."
                     const pagoLink = await contract(pagoLinkAbi, pagoLinkAdress);
+                    console.log({pagoLink})
                     if (token != address0) {
                         const tx = await pagoLink.makePayment(token, ethers.utils.parseEther(amount), merchant, paymentId);
                         await tx.wait();

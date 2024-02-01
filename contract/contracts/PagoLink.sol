@@ -13,9 +13,9 @@ contract PagoLink is Ownable {
     address public stableCoinAddress;
 
     event PaymentSuccessful(
-        string indexed paymentId,
-        address indexed payer,
-        string indexed merchant,
+        string paymentId,
+        address payer,
+        string merchant,
         uint256 amount,
         address token
     );
