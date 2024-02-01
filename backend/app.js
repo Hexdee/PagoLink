@@ -167,7 +167,13 @@ contract.on("PaymentSuccessful", async (paymentId, payer, merchant, amount, toke
         const payment = await Payment.findById(paymentId);
         payment.paid = true;
         payment.datePaid = Date.now();
-        const payments = user.payments;
+        let payments = user.payments;
+        payments = payments.map((p) => {
+            if (payment._id == p._id) {
+                return payment;
+            }
+            return p;
+        })
         await Merchant.updateOne({ username: merchant }, { balance, payments });
         // console.log("Payment successful");
     } catch (err) {
